@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 class_name Player
 
-const MAX_SPEED: int = 100
+const MAX_SPEED: int = 200
 
 func  _ready() -> void:
 	pass
