@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 class_name BasicEnemy
 
-const MAX_SPEED: int = 75
+const MAX_SPEED: int = 50
 
 @onready var area_2d: Area2D = $Area2D
 

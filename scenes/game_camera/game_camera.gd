@@ -2,7 +2,7 @@ extends Camera2D
 
 class_name GameCamera
 
-const SMOOTHING_VALUE: int = 10
+const SMOOTHING_VALUE: int = 20
 var target_position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
