@@ -5,6 +5,7 @@ class_name BasicEnemy
 const MAX_SPEED: int = 50
 
 @onready var area_2d: Area2D = $Area2D
+@onready var health_component: HealthComponent = $HealthComponent
 
 
 func _ready() -> void:
@@ -24,4 +25,4 @@ func get_direction_to_player() -> Vector2:
 
 
 func _on_area_entered(_other_area2d: Area2D) -> void:
-	queue_free()
+	health_component.damage(10)
