@@ -20,7 +20,7 @@ func spawn_experience_vial() -> void:
 
 
 func _on_died() -> void:
-	if experience_vial_scene == null or not owner is Node2D:
+	if experience_vial_scene == null or not owner is Node2D or randf() > drop_percent:
 		return
 	call_deferred("spawn_experience_vial")
 

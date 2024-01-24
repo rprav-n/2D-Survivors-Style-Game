@@ -11,7 +11,6 @@ func _ready() -> void:
 
 func increment_experience(number: float) -> void:
 	current_experience += number
-	print(current_experience)
 
 
 func _on_experience_vial_collected(number: float) -> void:
