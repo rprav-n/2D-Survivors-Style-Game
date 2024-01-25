@@ -4,10 +4,17 @@ class_name Player
 
 const MAX_SPEED: int = 150
 const ACCELERATION_SMOOTHING: int = 25
+var number_colliding_bodies: int = 0
+
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var collision_area: Area2D = $CollisionArea
+@onready var damage_interval_timer: Timer = $DamageIntervalTimer
 
 
 func  _ready() -> void:
-	pass
+	collision_area.body_entered.connect(_on_body_entered)
+	collision_area.body_exited.connect(_on_body_exited)
+	damage_interval_timer.timeout.connect(_on_damage_interval_timer_timeout)
 
 
 func _process(delta: float) -> void:
@@ -19,3 +26,23 @@ func _process(delta: float) -> void:
 
 func get_movement_vector() -> Vector2:
 	return Input.get_vector("move_left", "move_right", "move_up", "move_down")
+
+
+func check_deal_damage() -> void:
+	if number_colliding_bodies == 0 or !damage_interval_timer.is_stopped():
+		return
+	health_component.damage(1)
+	damage_interval_timer.start()
+
+
+func _on_body_entered(_other_body: Node2D) -> void:
+	number_colliding_bodies += 1
+	check_deal_damage()
+
+
+func _on_body_exited(_other_body: Node2D) -> void:
+	number_colliding_bodies -= 1
+
+
+func _on_damage_interval_timer_timeout() -> void:
+	check_deal_damage()
