@@ -14,8 +14,8 @@ func _ready() -> void:
 func spawn_experience_vial() -> void:
 	var spawn_position: Vector2 = (owner as Node2D).global_position
 	var experience_vial: ExperienceVial = experience_vial_scene.instantiate() as ExperienceVial
-	
-	owner.get_parent().add_child(experience_vial)
+	var entities_layer: Node = get_tree().get_first_node_in_group("entities_layer") as Node
+	entities_layer.add_child(experience_vial)
 	experience_vial.global_position = spawn_position
 
 

@@ -34,7 +34,10 @@ func spawn_sword_ability() -> void:
 	)
 	var enemy: Node2D = enemies[0] as Node2D
 	var sword_ability: SwordAbility = sword_ability_scene.instantiate() as SwordAbility
-	player.get_parent().add_child(sword_ability)
+	
+	var foreground_layer: Node = get_tree().get_first_node_in_group("foreground_layer") as Node
+	foreground_layer.add_child(sword_ability)
+	
 	sword_ability.hitbox_component.damage = damage
 	sword_ability.global_position = enemy.global_position
 	sword_ability.global_position += Vector2.RIGHT.rotated(randf_range(0, TAU)) * 4
