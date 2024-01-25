@@ -30,4 +30,8 @@ func _on_level_up(_current_level: int) -> void:
 	var upgrade_screen: UpgradeScreen = upgrade_screen_scene.instantiate() as UpgradeScreen
 	add_child(upgrade_screen)
 	upgrade_screen.set_ability_upgrades([choosen_upgrade])
-	
+	upgrade_screen.upgrade_selected.connect(_on_upgrade_selected)
+
+
+func _on_upgrade_selected(upgrade: AbilityUpgrade) -> void:
+	apply_upgrade(upgrade)
