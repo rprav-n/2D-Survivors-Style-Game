@@ -7,6 +7,7 @@ class_name SwordAbilityController
 @onready var timer: Timer = $Timer
 
 const MAX_RANGE: int = 150
+var damage: int = 5
 
 func _ready() -> void:
 	timer.timeout.connect(_on_timer_timeout)
@@ -29,8 +30,9 @@ func spawn_sword_ability() -> void:
 		return a_distance < b_distance
 	)
 	var enemy: Node2D = enemies[0] as Node2D
-	var sword_ability: Node2D = sword_ability_scene.instantiate() as Node2D
+	var sword_ability: SwordAbility = sword_ability_scene.instantiate() as SwordAbility
 	player.get_parent().add_child(sword_ability)
+	sword_ability.hitbox_component.damage = damage
 	sword_ability.global_position = enemy.global_position
 	sword_ability.global_position += Vector2.RIGHT.rotated(randf_range(0, TAU)) * 4
 	
