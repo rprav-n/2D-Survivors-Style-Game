@@ -1,9 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://21c4v1u2x55t"]
+[gd_scene load_steps=10 format=3 uid="uid://21c4v1u2x55t"]
 
 [ext_resource type="Texture2D" uid="uid://w1bsvhpih3hk" path="res://scenes/game_object/player/player.png" id="1_4x66v"]
 [ext_resource type="Script" path="res://scenes/game_object/player/player.gd" id="1_raj11"]
 [ext_resource type="PackedScene" uid="uid://bcolhterb34qg" path="res://scenes/component/health_component.tscn" id="2_iyigt"]
 [ext_resource type="PackedScene" uid="uid://bldakjdbeg5ld" path="res://scenes/abilities/sword_ability_controller/sword_ability_controller.tscn" id="2_wn3ir"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rft00"]
+bg_color = Color(0.247059, 0.14902, 0.192157, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k8n8a"]
+bg_color = Color(0.262745, 0.882353, 0.701961, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.247059, 0.14902, 0.192157, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1qn6m"]
 radius = 32.0
@@ -29,7 +40,28 @@ script = ExtResource("1_raj11")
 wait_time = 0.5
 one_shot = true
 
+[node name="HealthBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(32, 6)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(16, 3)
+theme_override_styles/background = SubResource("StyleBoxFlat_rft00")
+theme_override_styles/fill = SubResource("StyleBoxFlat_k8n8a")
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
 [node name="PickupArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(0, -6)
 collision_layer = 16
 collision_mask = 0
@@ -42,6 +74,7 @@ texture = ExtResource("1_4x66v")
 offset = Vector2(0, -8)
 
 [node name="CollisionArea" type="Area2D" parent="."]
+visible = false
 position = Vector2(0, -7)
 collision_layer = 0
 collision_mask = 8
@@ -50,5 +83,6 @@ collision_mask = 8
 shape = SubResource("CircleShape2D_im02y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_dulxf")
