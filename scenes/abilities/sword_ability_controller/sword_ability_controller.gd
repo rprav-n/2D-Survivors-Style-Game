@@ -8,9 +8,12 @@ class_name SwordAbilityController
 
 const MAX_RANGE: int = 150
 var damage: int = 5
+var base_wait_time: float
 
 func _ready() -> void:
+	base_wait_time = timer.wait_time
 	timer.timeout.connect(_on_timer_timeout)
+	GameEvents.ability_upgrade_added.connect(_on_ability_upgrade_added)
 
 
 func spawn_sword_ability() -> void:
@@ -42,3 +45,14 @@ func spawn_sword_ability() -> void:
 
 func _on_timer_timeout() -> void:
 	spawn_sword_ability()
+
+
+func _on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary) -> void:
+	if upgrade.id != "sword_rate":
+		return
+	
+	var percent_reduction: float = current_upgrades["sword_rate"]["quantity"] * 0.1
+	timer.wait_time = base_wait_time * (1 - percent_reduction)
+	timer.start()
+	
+	print(timer.wait_time)
