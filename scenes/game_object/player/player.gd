@@ -11,6 +11,8 @@ var number_colliding_bodies: int = 0
 @onready var damage_interval_timer: Timer = $DamageIntervalTimer
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var abilities: Node = $Abilities
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var visuals: Node2D = $Visuals
 
 
 func  _ready() -> void:
@@ -27,6 +29,12 @@ func _process(delta: float) -> void:
 	var target_velocity: Vector2 = movement_vector * MAX_SPEED
 	velocity = velocity.lerp(target_velocity, 1 - exp(-delta * ACCELERATION_SMOOTHING))
 	move_and_slide()
+	
+	if movement_vector.x != 0 or movement_vector.y != 0:
+		visuals.scale.x = -1 if movement_vector.x < 0 else 1
+		animation_player.play("walk")
+	else:
+		animation_player.play("RESET")
 
 
 func get_movement_vector() -> Vector2:
