@@ -25,13 +25,22 @@ func apply_upgrade(upgrade: AbilityUpgrade) -> void:
 	GameEvents.emit_ability_upgrade_added(upgrade, current_upgrades)
 
 
+func pick_upgrades() -> Array[AbilityUpgrade]:
+	var filtered_upgrades: Array[AbilityUpgrade] = upgrade_pool.duplicate()
+	var choosen_upgrades: Array[AbilityUpgrade] = []
+	for i in 2:
+		var choosen_upgrade: AbilityUpgrade = filtered_upgrades.pick_random() as AbilityUpgrade
+		choosen_upgrades.append(choosen_upgrade)
+		filtered_upgrades = filtered_upgrades.filter(func(upgrade: AbilityUpgrade): return choosen_upgrade.id != upgrade.id)
+	
+	return choosen_upgrades
+
+
 func _on_level_up(_current_level: int) -> void:
-	var choosen_upgrade: AbilityUpgrade = upgrade_pool.pick_random() as AbilityUpgrade
-	if choosen_upgrade == null:
-		pass
 	var upgrade_screen: UpgradeScreen = upgrade_screen_scene.instantiate() as UpgradeScreen
 	add_child(upgrade_screen)
-	upgrade_screen.set_ability_upgrades([choosen_upgrade])
+	var upgrades: Array[AbilityUpgrade] =  pick_upgrades()
+	upgrade_screen.set_ability_upgrades(upgrades)
 	upgrade_screen.upgrade_selected.connect(_on_upgrade_selected)
 
 
