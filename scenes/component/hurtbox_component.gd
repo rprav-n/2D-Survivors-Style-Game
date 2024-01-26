@@ -5,6 +5,7 @@ class_name HurtboxComponent
 @export var health_component: HealthComponent
 @export var floating_text_scene: PackedScene
 
+
 func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 
