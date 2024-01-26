@@ -61,7 +61,7 @@ func _on_health_changed() -> void:
 	update_health_display()
 	
 
-func _on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary) -> void:
+func _on_ability_upgrade_added(upgrade: AbilityUpgrade, _current_upgrades: Dictionary) -> void:
 	if not upgrade is Ability:
 		return
 	
