@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://40po7bphxfqo"]
+[gd_scene load_steps=16 format=3 uid="uid://40po7bphxfqo"]
 
 [ext_resource type="Texture2D" uid="uid://dt0hevxiqva4y" path="res://scenes/game_object/basic_enemy/basic_enemy.png" id="1_av45i"]
 [ext_resource type="Script" path="res://scenes/game_object/basic_enemy/basic_enemy.gd" id="1_gw5xw"]
@@ -6,8 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://djgty1w2gsqcg" path="res://scenes/component/vial_drop_component.tscn" id="3_oh86x"]
 [ext_resource type="PackedScene" uid="uid://wm5fggrrqh6n" path="res://scenes/component/death_component.tscn" id="4_k0hfo"]
 [ext_resource type="PackedScene" uid="uid://bkmcx76y5ucg5" path="res://scenes/component/hurtbox_component.tscn" id="4_ue50f"]
+[ext_resource type="Shader" path="res://scenes/component/hit_flash_component.gdshader" id="6_utged"]
 [ext_resource type="PackedScene" uid="uid://kld1ygdi70xg" path="res://scenes/component/hit_flash_component.tscn" id="7_poakq"]
 [ext_resource type="PackedScene" uid="uid://bvmyolocueke6" path="res://scenes/component/velocity_component.tscn" id="7_x20ty"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_veh8f"]
+resource_local_to_scene = true
+shader = ExtResource("6_utged")
+shader_parameter/lerp_percent = 0.0
 
 [sub_resource type="Animation" id="Animation_fkq3e"]
 length = 0.001
@@ -86,7 +92,7 @@ script = ExtResource("1_gw5xw")
 [node name="HealthComponent" parent="." instance=ExtResource("2_64173")]
 
 [node name="VialDropComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_oh86x")]
-drop_percent = 0.35
+drop_percent = 1.0
 health_component = NodePath("../HealthComponent")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("7_x20ty")]
@@ -95,6 +101,7 @@ max_speed = 20
 [node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("7_poakq")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../Visuals/Sprite2D")
+hit_flash_material = SubResource("ShaderMaterial_veh8f")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "walk"

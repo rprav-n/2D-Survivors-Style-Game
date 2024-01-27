@@ -3,12 +3,23 @@ extends Node
 class_name UpgradeManager
 
 @export var experience_manager: ExperienceManager
-@export var upgrade_pool: Array[AbilityUpgrade]
+#@export var upgrade_pool: Array[AbilityUpgrade]
 @export var upgrade_screen_scene: PackedScene
 
 var current_upgrades: Dictionary = {}
+var upgrade_pool: WeightedTable = WeightedTable.new()
+
+var upgrade_axe: Resource = preload("res://resources/upgrades/axe.tres")
+var upgrade_axe_damage: Resource = preload("res://resources/upgrades/axe_damage.tres")
+var upgrade_sword_rate: Resource = preload("res://resources/upgrades/sword_rate.tres")
+var upgrade_sword_damage: Resource = preload("res://resources/upgrades/sword_damage.tres")
 
 func _ready() -> void:
+	
+	upgrade_pool.add_item(upgrade_axe, 10)
+	upgrade_pool.add_item(upgrade_sword_rate, 10)
+	upgrade_pool.add_item(upgrade_sword_damage, 10)
+	
 	experience_manager.level_up.connect(_on_level_up)
 
 
@@ -25,18 +36,24 @@ func apply_upgrade(upgrade: AbilityUpgrade) -> void:
 	if upgrade.max_quantiy > 0:
 		var current_quantity: int = current_upgrades[upgrade.id]["quantity"]
 		if current_quantity == upgrade.max_quantiy:
-			upgrade_pool = upgrade_pool.filter(func(pool_upgrade: AbilityUpgrade): return pool_upgrade.id != upgrade.id)
-	
+			upgrade_pool.remove_item(upgrade.id)
+	updae_upgrade_pool(upgrade)
 	GameEvents.emit_ability_upgrade_added(upgrade, current_upgrades)
 
 
+func updae_upgrade_pool(choosen_upgrade: AbilityUpgrade) -> void:
+	if choosen_upgrade.id == upgrade_axe.id:
+		upgrade_pool.add_item(upgrade_axe_damage, 10)
+
+
 func pick_upgrades() -> Array[AbilityUpgrade]:
-	var filtered_upgrades: Array[AbilityUpgrade] = upgrade_pool.duplicate()
+	
 	var choosen_upgrades: Array[AbilityUpgrade] = []
-	for i in min(filtered_upgrades.size(), 2):
-		var choosen_upgrade: AbilityUpgrade = filtered_upgrades.pick_random() as AbilityUpgrade
+	for i in 2:
+		if upgrade_pool.items.size() == choosen_upgrades.size():
+			break
+		var choosen_upgrade: Object = upgrade_pool.pick_item(choosen_upgrades)
 		choosen_upgrades.append(choosen_upgrade)
-		filtered_upgrades = filtered_upgrades.filter(func(upgrade: AbilityUpgrade): return choosen_upgrade.id != upgrade.id)
 	
 	return choosen_upgrades
 

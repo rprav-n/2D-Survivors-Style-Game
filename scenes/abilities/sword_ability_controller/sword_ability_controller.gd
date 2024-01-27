@@ -7,7 +7,8 @@ class_name SwordAbilityController
 @onready var timer: Timer = $Timer
 
 const MAX_RANGE: int = 150
-var damage: int = 5
+var base_damage: float = 5
+var additional_damage_percent: float = 1.0
 var base_wait_time: float
 
 func _ready() -> void:
@@ -38,7 +39,7 @@ func spawn_sword_ability() -> void:
 	var foreground_layer: Node = get_tree().get_first_node_in_group("foreground_layer") as Node
 	foreground_layer.add_child(sword_ability)
 	
-	sword_ability.hitbox_component.damage = damage
+	sword_ability.hitbox_component.damage = base_damage * additional_damage_percent
 	sword_ability.global_position = enemy.global_position
 	sword_ability.global_position += Vector2.RIGHT.rotated(randf_range(0, TAU)) * 4
 	
@@ -51,11 +52,10 @@ func _on_timer_timeout() -> void:
 
 
 func _on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary) -> void:
-	if upgrade.id != "sword_rate":
-		return
+	if upgrade.id == "sword_rate":
+		var percent_reduction: float = current_upgrades["sword_rate"]["quantity"] * 0.1
+		timer.wait_time = base_wait_time * (1 - percent_reduction)
+		timer.start()
+	elif upgrade.id == "sword_damage":
+		additional_damage_percent = 1 + current_upgrades["sword_damage"]["quantity"] * 0.15
 	
-	var percent_reduction: float = current_upgrades["sword_rate"]["quantity"] * 0.1
-	timer.wait_time = base_wait_time * (1 - percent_reduction)
-	timer.start()
-	
-	print(timer.wait_time)
