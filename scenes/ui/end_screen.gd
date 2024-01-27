@@ -7,6 +7,8 @@ class_name EndScreen
 @onready var restart_button: Button = %RestartButton
 @onready var quit_button: Button = %QuitButton
 @onready var panel_container: PanelContainer = %PanelContainer
+@onready var victory_audio_stream_player: AudioStreamPlayer = $VictoryAudioStreamPlayer
+@onready var defeat_audio_stream_player: AudioStreamPlayer = $DefeatAudioStreamPlayer
 
 
 func _ready() -> void:
@@ -25,6 +27,14 @@ func _ready() -> void:
 func set_defeat() -> void:
 	tile_label.text = "Defeat"
 	description_label.text = "You lost!"
+	play_jingle(true)
+	
+
+func play_jingle(defeat: bool = false):
+	if defeat:
+		defeat_audio_stream_player.play()
+	else:
+		victory_audio_stream_player.play()
 
 
 func _on_restart_button_pressed() ->  void:
