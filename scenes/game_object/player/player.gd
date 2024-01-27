@@ -11,6 +11,7 @@ class_name Player
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = $Visuals
 @onready var velocity_component: VelocityComponent = $VelocityComponent
+@onready var random_stream_player_2d: AudioStreamPlayer2D = $RandomStreamPlayer2D
 
 var number_colliding_bodies: int = 0
 var base_speed: float = 0
@@ -69,6 +70,7 @@ func _on_damage_interval_timer_timeout() -> void:
 func _on_health_changed() -> void:
 	GameEvents.emit_player_damage()
 	update_health_display()
+	random_stream_player_2d.play_random()
 	
 
 func _on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary) -> void:

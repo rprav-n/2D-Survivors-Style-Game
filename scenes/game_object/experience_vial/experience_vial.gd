@@ -5,6 +5,7 @@ class_name ExperienceVial
 @onready var area_2d: Area2D = $Area2D
 @onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var random_stream_player_2d: RandomAudioStreamPlayer2D = $RandomStreamPlayer2D
 
 
 func _ready() -> void:
@@ -42,3 +43,5 @@ func _on_area_entered(_other_area: Area2D) -> void:
 	tween.chain()
 	
 	tween.tween_callback(collect)
+	
+	random_stream_player_2d.play_random()

@@ -16,7 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://b77idqmkr8bw2" path="res://assets/audio/footstep_carpet_003.ogg" id="14_54tkb"]
 [ext_resource type="AudioStream" uid="uid://bhyhvo1p2wqpb" path="res://assets/audio/footstep_carpet_004.ogg" id="15_lf60g"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g1ak1"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0plrs"]
 resource_local_to_scene = true
 shader = ExtResource("6_utged")
 shader_parameter/lerp_percent = 0.0
@@ -107,7 +107,7 @@ max_speed = 20
 [node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("7_poakq")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../Visuals/Sprite2D")
-hit_flash_material = SubResource("ShaderMaterial_g1ak1")
+hit_flash_material = SubResource("ShaderMaterial_0plrs")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "walk"
@@ -128,7 +128,6 @@ shape = SubResource("CircleShape2D_p8mua")
 
 [node name="HitRandomAudioPlayerComponent" parent="." instance=ExtResource("10_rvqw1")]
 stream = ExtResource("10_ipxeg")
-max_distance = 300.0
 streams = Array[AudioStream]([ExtResource("10_ipxeg"), ExtResource("12_3m4xk"), ExtResource("13_idqqu"), ExtResource("14_54tkb"), ExtResource("15_lf60g")])
 
 [node name="Visuals" type="Node2D" parent="."]
