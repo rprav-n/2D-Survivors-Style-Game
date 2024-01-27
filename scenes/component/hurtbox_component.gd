@@ -2,6 +2,8 @@ extends Area2D
 
 class_name HurtboxComponent
 
+signal hit
+
 @export var health_component: HealthComponent
 @export var floating_text_scene: PackedScene
 
@@ -33,3 +35,4 @@ func _on_area_entered(other_area: Area2D) -> void:
 	var hitbox_component: HitboxComponent = other_area as HitboxComponent
 	health_component.damage(hitbox_component.damage)
 	spawn_floating_text(hitbox_component.damage)
+	hit.emit()
