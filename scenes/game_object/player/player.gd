@@ -2,9 +2,6 @@ extends CharacterBody2D
 
 class_name Player
 
-const MAX_SPEED: int = 150
-const ACCELERATION_SMOOTHING: int = 25
-var number_colliding_bodies: int = 0
 
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var collision_area: Area2D = $CollisionArea
@@ -13,7 +10,10 @@ var number_colliding_bodies: int = 0
 @onready var abilities: Node = $Abilities
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var visuals: Node2D = $Visuals
+@onready var velocity_component: VelocityComponent = $VelocityComponent
 
+var number_colliding_bodies: int = 0
+var base_speed: float = 0
 
 func  _ready() -> void:
 	update_health_display()
@@ -22,13 +22,14 @@ func  _ready() -> void:
 	damage_interval_timer.timeout.connect(_on_damage_interval_timer_timeout)
 	health_component.health_changed.connect(_on_health_changed)
 	GameEvents.ability_upgrade_added.connect(_on_ability_upgrade_added)
+	base_speed = velocity_component.max_speed
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var movement_vector: Vector2 = get_movement_vector()
-	var target_velocity: Vector2 = movement_vector * MAX_SPEED
-	velocity = velocity.lerp(target_velocity, 1 - exp(-delta * ACCELERATION_SMOOTHING))
-	move_and_slide()
+	velocity_component.accelerate_in_direction(movement_vector)
+	velocity_component.move(self)
+
 	
 	if movement_vector.x != 0 or movement_vector.y != 0:
 		visuals.scale.x = -1 if movement_vector.x < 0 else 1
@@ -69,9 +70,9 @@ func _on_health_changed() -> void:
 	update_health_display()
 	
 
-func _on_ability_upgrade_added(upgrade: AbilityUpgrade, _current_upgrades: Dictionary) -> void:
-	if not upgrade is Ability:
-		return
-	
-	var ability: Ability = upgrade as Ability
-	abilities.add_child(ability.ability_controller_scene.instantiate())
+func _on_ability_upgrade_added(upgrade: AbilityUpgrade, current_upgrades: Dictionary) -> void:
+	if upgrade is Ability:
+		var ability: Ability = upgrade as Ability
+		abilities.add_child(ability.ability_controller_scene.instantiate())
+	elif upgrade.id == "player_speed":
+		velocity_component.max_speed = base_speed + (base_speed * current_upgrades["player_speed"]["quantity"] * 0.1)
