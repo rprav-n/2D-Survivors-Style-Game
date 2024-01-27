@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://stu8jaa7e34b"]
+[gd_scene load_steps=13 format=3 uid="uid://stu8jaa7e34b"]
 
 [ext_resource type="Script" path="res://scenes/main/main.gd" id="1_0554a"]
 [ext_resource type="PackedScene" uid="uid://bfou61qpaik5b" path="res://scenes/ui/arena_time_ui.tscn" id="1_eydaa"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dvfqtm3mshls7" path="res://scenes/manager/enemy_manager.tscn" id="4_73j8e"]
 [ext_resource type="PackedScene" uid="uid://cbpiuhbekpf76" path="res://scenes/manager/experience_manager.tscn" id="8_xiqry"]
 [ext_resource type="PackedScene" uid="uid://c2450ymq1mckg" path="res://scenes/manager/upgrade_manager.tscn" id="10_mfnqg"]
+[ext_resource type="PackedScene" uid="uid://cdp6s5om86rck" path="res://scenes/game_object/experience_vial/experience_vial.tscn" id="12_3m8jw"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0554a")
@@ -46,5 +47,8 @@ y_sort_enabled = true
 [node name="Player" parent="Entities" instance=ExtResource("1_uw2hb")]
 unique_name_in_owner = true
 position = Vector2(320, 160)
+
+[node name="ExperienceVial" parent="Entities" instance=ExtResource("12_3m8jw")]
+position = Vector2(236, 144)
 
 [node name="Foreground" type="Node2D" parent="." groups=["foreground_layer"]]
