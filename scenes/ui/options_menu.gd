@@ -2,7 +2,7 @@ extends CanvasLayer
 
 class_name OptionsMenu
 
-signal back_pressed
+signal back_pressed 
 
 @onready var window_button: Button = %WindowButton
 @onready var sfx_slider: HSlider = %SfxSlider
