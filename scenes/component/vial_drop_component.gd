@@ -20,7 +20,12 @@ func spawn_experience_vial() -> void:
 
 
 func _on_died() -> void:
-	if experience_vial_scene == null or not owner is Node2D or randf() > drop_percent:
+	var adjusted_drop_percent: float = drop_percent
+	var experience_gain_upgrade_count: int = MetaProgression.get_upgrade_count("experience_gain")
+	if experience_gain_upgrade_count > 0:
+		adjusted_drop_percent += 0.1
+		
+	if experience_vial_scene == null or not owner is Node2D or randf() > adjusted_drop_percent:
 		return
 	call_deferred("spawn_experience_vial")
 
